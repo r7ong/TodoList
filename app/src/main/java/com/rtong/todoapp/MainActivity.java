@@ -1,5 +1,6 @@
 package com.rtong.todoapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 
@@ -18,7 +20,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> todoItems;
+    private final int REQUEST_CODE = 20;
+
+    ArrayList<String> todoItems = new ArrayList<String>();
     ArrayAdapter<String> aToDoAdapter;
     ListView lvItems;
     EditText etEditText;
@@ -40,7 +44,35 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(MainActivity.this, EditItemActivity.class);
+                i.putExtra("position", position);
+                i.putExtra("content", todoItems.get(position));
+                startActivityForResult(i, REQUEST_CODE);
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            // Extract name value from result extras
+            String content = data.getExtras().getString("content");
+            int position = data.getExtras().getInt("position", 0);
+            int code = data.getExtras().getInt("code", 0);
+            // save edited item
+            todoItems.set(position, content);
+            aToDoAdapter.notifyDataSetChanged();
+            writeItems();
+            Toast.makeText(this, "Item Saved", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 
     private void populateArrayItems() {
         readItems();
