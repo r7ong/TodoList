@@ -1,34 +1,23 @@
 package com.rtong.listit;
 
-import java.io.Serializable;
-
-/**
- * Created by rtong on 10/2/15.
- */
 public class Item {
+    private int _id;
     private String content;
-    //        private Priority priority;
+    private String priority;
     public String getContent(){
         return this.content;
     }
 
-    public Item(String content){
-        this.content = content;
+    public String getPriority(){
+        return this.priority;
     }
-//        public Priority getPriority(){
-//            return this.priority;
-//        }
-//        public Item(String content, Priority priority){
-//            this.content = content;
-//            this.priority = priority;
-//        }
+
+    public Item(){
+
+    }
+
+    public Item(String content, String priority){
+        this.content = content;
+        this.priority = priority;
+    }
 }
-
-
-
-
-
-
-//class Item implements Serializable {
-//
-//}

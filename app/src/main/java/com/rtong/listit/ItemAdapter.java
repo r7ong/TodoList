@@ -22,10 +22,11 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.item, parent, false);
         String content = getItem(position).getContent();
+        String priority = getItem(position).getPriority();
         TextView tvContent = (TextView) view.findViewById(R.id.tvContent);
         TextView tvPriority = (TextView) view.findViewById(R.id.tvPriority);
         tvContent.setText(content);
-        tvPriority.setText(content);
+        tvPriority.setText(priority);
         return view;
     }
 }
